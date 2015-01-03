@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{104FA4B1-D3E1-4404-8EFB-09E43FFDE98A}</ProjectGuid>
+    <RootNamespace>OpenGL4</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;C:\Users\Nathan\Documents\Visual Studio 2010\SDL_image-1.2.12\include;C:\Users\Nathan\Documents\Visual Studio 2010\libs\SDL-1.2.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;C:\Users\Nathan\Documents\Visual Studio 2010\SDL_image-1.2.12\lib\x86;C:\Users\Nathan\Documents\Visual Studio 2010\libs\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;C:\Users\Nathan\Documents\Visual Studio 2010\SDL_image-1.2.12\include;C:\Users\Nathan\Documents\Visual Studio 2010\libs\SDL-1.2.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;C:\Users\Nathan\Documents\Visual Studio 2010\SDL_image-1.2.12\lib\x86;C:\Users\Nathan\Documents\Visual Studio 2010\libs\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;CompiledEasyBMP.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>C:\Users\Nathan\Documents\Visual Studio 2012\Projects\OpenGL4\OpenGL4\EasyBMP;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;CompiledEasyBMP.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Block.cpp">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="BlockAir.cpp" />
+    <ClCompile Include="BlockDirt.cpp" />
+    <ClCompile Include="BlockGrass.cpp" />
+    <ClCompile Include="BlockLeaf.cpp" />
+    <ClCompile Include="BlockStone.cpp" />
+    <ClCompile Include="BlockWood.cpp" />
+    <ClCompile Include="Boot.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Chunk.cpp" />
+    <ClCompile Include="CircleLight.cpp" />
+    <ClCompile Include="CommandsManager.cpp" />
+    <ClCompile Include="Container.cpp" />
+    <ClCompile Include="DDAHelper.cpp" />
+    <ClCompile Include="DebugOverlay.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FontRenderer.cpp" />
+    <ClCompile Include="GameConsole.cpp" />
+    <ClCompile Include="GameRenderer.cpp" />
+    <ClCompile Include="GameUpdater.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemBlock.cpp" />
+    <ClCompile Include="ItemGrass.cpp" />
+    <ClCompile Include="ItemStack.cpp" />
+    <ClCompile Include="ItemStone.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Keyboardable.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Lightable.cpp" />
+    <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="LightNeon.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="MovementsManager.cpp" />
+    <ClCompile Include="NRectangle.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerInventory.cpp" />
+    <ClCompile Include="RapidInventory.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="Spritesheet.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="Updatable.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldGen.cpp" />
+    <ClCompile Include="WorldGenCaves.cpp" />
+    <ClCompile Include="WorldGenTrees.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="BlockAir.h" />
+    <ClInclude Include="BlockDirt.h" />
+    <ClInclude Include="BlockGrass.h" />
+    <ClInclude Include="BlockLeaf.h" />
+    <ClInclude Include="BlockStone.h" />
+    <ClInclude Include="BlockWood.h" />
+    <ClInclude Include="Boot.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Chunk.h" />
+    <ClInclude Include="CircleLight.h" />
+    <ClInclude Include="CommandsManager.h" />
+    <ClInclude Include="Container.h" />
+    <ClInclude Include="DDAHelper.h" />
+    <ClInclude Include="DebugOverlay.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="FontRenderer.h" />
+    <ClInclude Include="GameConsole.h" />
+    <ClInclude Include="GameRenderer.h" />
+    <ClInclude Include="GameUpdater.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemBlock.h" />
+    <ClInclude Include="ItemGrass.h" />
+    <ClInclude Include="ItemStack.h" />
+    <ClInclude Include="ItemStone.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Keyboardable.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Lightable.h" />
+    <ClInclude Include="LightManager.h" />
+    <ClInclude Include="LightNeon.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="MovementsManager.h" />
+    <ClInclude Include="NRectangle.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerInventory.h" />
+    <ClInclude Include="RapidInventory.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="Spritesheet.h" />
+    <ClInclude Include="TextureLoader.h" />
+    <ClInclude Include="Updatable.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="World.h" />
+    <ClInclude Include="WorldGen.h" />
+    <ClInclude Include="WorldGenCaves.h" />
+    <ClInclude Include="WorldGenTrees.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SDL.dll" />
+    <None Include="SDL_image.dll" />
+    <None Include="yep.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
