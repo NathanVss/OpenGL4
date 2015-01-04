@@ -113,6 +113,7 @@
     <ClCompile Include="Lightable.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightNeon.cpp" />
+    <ClCompile Include="LightSun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MovementsManager.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Lightable.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightNeon.h" />
+    <ClInclude Include="LightSun.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="MovementsManager.h" />
     <ClInclude Include="NRectangle.h" />

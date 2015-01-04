@@ -46,6 +46,15 @@ void LightManager::clearPointers() {
 		delete this->LightNeonsBags[i];
 	}
 	this->LightNeonsBags.clear();
+
+	for(int i=0;i<this->LightSunBags.size();i++) {
+		this->clearLightBagPointer(this->LightSunBags[i]);
+		if(LightSunBags[i]->SecondShadowMap) {
+			delete LightSunBags[i]->SecondShadowMap;
+		}
+		delete this->LightSunBags[i];
+	}
+	this->LightSunBags.clear();
 }
 
 void LightManager::clearLightBagPointer(LightBag* lLightBag) {
@@ -452,37 +461,6 @@ void LightManager::doRaycastingCircleLight(CircleLightBag* clb) {
 
 }
 
-//void LightManager::drawShadows() {
-//	for(int mapI = 0; mapI < this->Lights.size(); mapI++) {
-//
-//		// Map noire pour chaque light
-//		int mapWidth = this->shadowMaps[mapI]->getWidth();
-//		int mapHeight = this->shadowMaps[mapI]->getHeight();
-//		ShadowMap* shadowMapRaycasting = new ShadowMap(mapWidth , mapHeight);
-//
-//		this->shadowMapsRaycasting.push_back(shadowMapRaycasting);
-//		for(int x=0;x<mapWidth;x++) {
-//			for(int y = 0; y < mapHeight; y++) {
-//				shadowMapRaycasting->setScale(x, y, 0);
-//			}
-//		}
-//
-//		std::vector<mapPoint> mapPointsVector;
-//		this->interpFromRaycastingPts.push_back(mapPointsVector);
-//
-//		if(this->Lights[mapI]->getType() == std::string("circle")) {
-//			this->drawShadowRectangle(mapI);
-//
-//		} else if(this->Lights[mapI]->getType() == std::string("neon")) {
-//			this->drawShadowNeon(mapI);
-//		}
-//
-//		
-//	}
-//		
-//
-//}
-
 void LightManager::mixRaycastingRadius(CircleLightBag* cCircleLightBag) {
 	int lx = cCircleLightBag->cCircleLight->getX()/32.0f;
 	int ly = cCircleLightBag->cCircleLight->getY()/32.0f;
@@ -539,6 +517,10 @@ void LightManager::enableFinalShadowMap() {
 			for(int i=0; i < this->LightNeonsBags.size(); i++) {
 				indice += this->LightNeonsBags[i]->shadowMap->getScale(x, y);
 			}
+			for(int i=0; i < this->LightSunBags.size(); i++) {
+
+				indice += this->LightSunBags[i]->SecondShadowMap->getScale(x, y);
+			}
 			if(indice > 255) {
 				indice = 255;
 			}
@@ -548,8 +530,88 @@ void LightManager::enableFinalShadowMap() {
 	this->convertToBMP(this->finalShadowMap, std::string("lighting/final.bmp"));
 }
 
+void LightManager::copyBaseToSecondShadowMap(LightSunBag* lLightSunBag) {
 
+	ShadowMap* shadowMap = new ShadowMap(this->baseShadowMap->getWidth(),this->baseShadowMap->getHeight());
 
+	for(int x=0;x<this->baseShadowMap->getWidth();x++) {
+		for(int y=0;y<this->baseShadowMap->getHeight();y++) {
+
+			shadowMap->setScale(x, y, this->baseShadowMap->getScale(x, y));
+
+		}
+	}
+	lLightSunBag->SecondShadowMap = shadowMap;
+
+}
+
+void LightManager::doSunLighting(LightSunBag* lLightSunBag) {
+	float sweet = 1.5f;
+	int minHeight = 0;
+	int maxHeight = 48;
+	int nbrUntilBlack = 4;
+	float sunIndice = lLightSunBag->lLightSun->getIndice();
+
+	int boxX = this->container->getWorld()->getActiveChunksRectangle()->getX1();
+	int boxY = this->container->getWorld()->getActiveChunksRectangle()->getY1();
+	this->convertToBMP(lLightSunBag->shadowMap, std::string("lighting/first.bmp"));
+
+	for(int x=0;x<this->baseShadowMap->getWidth();x++) {
+		for(int y=0;y<this->baseShadowMap->getHeight();y++) {
+
+			if(y+boxY >= minHeight && y+boxY <= maxHeight) {
+				
+
+				int curScale = lLightSunBag->shadowMap->getScale(x,y);
+				if(curScale == 0) {
+
+					int nbrOpaqueBlocks = 0;
+					int curY = y;
+					bool hitTransp = false;
+
+					// On parcourt vers le haut jusqu'à avoir un block transparent
+					while(curY >= 0 && !hitTransp) {
+
+						if(lLightSunBag->shadowMap->getScale(x, curY) == 0) {
+							nbrOpaqueBlocks++;
+							// Inutile d'aller plus loin
+							if(nbrOpaqueBlocks >= nbrUntilBlack) {
+								break;
+							}
+						} else if(lLightSunBag->shadowMap->getScale(x, curY) == 255) {
+							hitTransp = true;
+						}
+						
+						curY--;
+
+					}
+					float indice = 0;
+					if(nbrUntilBlack >= nbrOpaqueBlocks) {
+						indice = 1-nbrOpaqueBlocks/(float)nbrUntilBlack;
+					}
+					
+					int scale = round(255*indice*sweet*sunIndice);
+					if(scale > 255) {
+						scale = 255;
+					}
+					lLightSunBag->SecondShadowMap->setScale(x, y, scale);
+
+				} else {
+					lLightSunBag->SecondShadowMap->setScale(x, y, round(255*sunIndice));
+				}
+		
+
+				
+			} else {
+				lLightSunBag->SecondShadowMap->setScale(x, y, 0);
+
+			}
+
+		}
+	}
+	this->convertToBMP(lLightSunBag->shadowMap, std::string("lighting/second.bmp"));
+
+}
 
 void LightManager::checkLighting() {
 
@@ -575,8 +637,20 @@ void LightManager::checkLighting() {
 		this->mixRaycastingRadius(cCircleLightBag);
 		
 	}
+
+	for(int i=0; i<this->LightSuns.size();i++) {
+
+		LightSunBag* lLightSunBag = new LightSunBag();
+		this->LightSunBags.push_back(lLightSunBag);
+		lLightSunBag->lLightSun = this->LightSuns[i];
+		this->copyMapWorld(lLightSunBag);
+		this->copyBaseToSecondShadowMap(lLightSunBag);
+		this->doSunLighting(lLightSunBag);
+	}
 	
 
+
+	// TO FINISH
 	for(int i=0;i<this->LightNeons.size(); i++) {
 		int lightX = this->LightNeons[i]->getX()/32.0f;
 		int lightWidth = this->LightNeons[i]->getWidth()/32.0f;
@@ -593,11 +667,7 @@ void LightManager::checkLighting() {
 			if(lightX >  boxX + boxWidth) {
 				continue;
 			}
-			if(direction == 2) {
-				if(boxY != 0 && lightY < boxY) {
-					continue;
-				}
-			}
+
 		}
 		if(this->LightNeons[i]->getDirection() == 1 || this->LightNeons[i]->getDirection() == 3) {
 			//if(lightY + lightWidth < 
@@ -656,4 +726,8 @@ void LightManager::addCircleLight(CircleLight* l){
 void LightManager::addLightNeon(LightNeon* l){
 	l->setContainer(this->container);
 	this->LightNeons.push_back(l);
+}
+void LightManager::addLightSun(LightSun* l){
+	l->setContainer(this->container);
+	this->LightSuns.push_back(l);
 }

@@ -11,6 +11,7 @@
 #include "CircleLight.h"
 #include "DDAHelper.h"
 #include "LightNeon.h"
+#include "LightSun.h"
 
 class World;
 
@@ -36,7 +37,10 @@ struct LightNeonBag : LightBagRaycasting {
 	std::vector<mapPoint> interFromRaycastingPts;
 	LightNeon* lLightNeon;
 };
-
+struct LightSunBag : LightBag {
+	LightSun* lLightSun;
+	ShadowMap* SecondShadowMap;
+};
 
 class LightManager : public Object
 {
@@ -46,6 +50,7 @@ public:
 	
 	void addCircleLight(CircleLight*);
 	void addLightNeon(LightNeon*);
+	void addLightSun(LightSun*);
 
 	void mapWorld();
 
@@ -69,6 +74,9 @@ public:
 	void doOneRaycastingNeonLight(LightNeonBag*, coords, coords);
 	void mixRaycastingNeonLight(LightNeonBag*);
 
+	void copyBaseToSecondShadowMap(LightSunBag*);
+	void doSunLighting(LightSunBag*);
+
 
 	void clearPointers();
 	void clearLightBagPointer(LightBag*);
@@ -84,6 +92,8 @@ private:
 	std::vector<CircleLight*> CircleLights;
 	std::vector<CircleLightBag*> CircleLightsBags;
 	
+	std::vector<LightSunBag*> LightSunBags;
+	std::vector<LightSun*> LightSuns;
 
 };
 

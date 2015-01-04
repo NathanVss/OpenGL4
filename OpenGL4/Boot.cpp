@@ -36,6 +36,7 @@
 #include "Container.h"
 
 #include "CircleLight.h"
+#include "LightSun.h"
 #include "Vector2D.h"
 #include "LightNeon.h"
 
@@ -95,8 +96,12 @@ void Boot::mainLoop() {
 	LightNeon* lLightNeon = new LightNeon();
 	lLightNeon->setX(32*5);
 	lLightNeon->setY(-300);
-	lLightManager->addLightNeon(lLightNeon);
+	//lLightManager->addLightNeon(lLightNeon);
 	
+	LightSun* lLightSun = new LightSun();
+	//lLightSun->setSeconds(22*3600);
+	lLightManager->addLightSun(lLightSun);
+
 
 	std::shared_ptr<World> wWorld(new World());
 	wWorld->setContainer(cContainer);
@@ -202,7 +207,7 @@ void Boot::mainLoop() {
 		timeForFps = SDL_GetTicks();
 		elapsedTime = currentTime - lastTime;
 		lastTime = currentTime;
-
+		lLightSun->setSeconds(lLightSun->getSeconds() + 100);
 
 		/* UPDATE */
 		GameUpdater::update();

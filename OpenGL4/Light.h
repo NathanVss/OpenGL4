@@ -26,8 +26,6 @@ public:
 	virtual bool getHasRadius();
 	virtual bool getHasMiniRadius();
 	virtual int getMiniRadius();
-
-	virtual std::string getType() = 0;
 protected:
 	int x;
 	int radius;
